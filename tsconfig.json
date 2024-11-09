@@ -1,16 +1,12 @@
 {
   "compilerOptions": {
-    "target": "es6",                      // You can use "es5" for even better compatibility
+    "target": "es6",
     "module": "commonjs",
     "outDir": "./out",
     "rootDir": "./src",
     "strict": true,
     "esModuleInterop": true,
-    "skipLibCheck": true,
-    "removeComments": true,               // Remove comments from the output
-    "sourceMap": false,                   // Disable source maps for production (reduces output size)
-    "noEmitHelpers": true,                // Minimize helper code
-    "preserveConstEnums": true           // Preserves const enums (if needed)
+    "skipLibCheck": true
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts"]
 }
