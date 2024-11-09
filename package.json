@@ -1,0 +1,44 @@
+{
+  "name": "youtube",
+  "version": "1.0.0",
+  "main": "out/index.js",
+  "scripts": {
+    "build": "tsc && npm run minify",
+    "start": "npm run build && electron .",
+    "minify": "terser ./out/index.js --compress --mangle --output ./out/index.js",
+    "package": "npm run build && npm run minify && electron-builder"
+  },
+  "keywords": [],
+  "author": "Tymon Marek",
+  "license": "MIT",
+  "description": "A simple YouTube wrapper used to run YouTube on Windows.",
+  "devDependencies": {
+    "@types/electron": "^1.4.38",
+    "@types/node": "^22.9.0",
+    "electron": "^33.2.0",
+    "electron-builder": "^23.6.0",
+    "terser": "^5.36.0",
+    "typescript": "^5.6.3"
+  },
+  "dependencies": {
+    "axios": "^1.7.7",
+    "sharp": "^0.33.5"
+  },
+  "build": {
+    "appId": "com.google.windows.youtube",
+    "productName": "YouTube",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "**/*",
+      "!**/*.map",
+      "!**/*.ts",
+      "!**/*.d.ts"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "assets/favicon_512x512_v2.png"
+    }
+  }
+}
