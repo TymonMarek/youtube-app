@@ -14,30 +14,25 @@ declare global {
 let mainWindow: BrowserWindow | null = null;
 let tray: Tray | null = null;
 
-// Prevent multiple instances of the app
 const isSingleInstance = app.requestSingleInstanceLock();
 
 if (!isSingleInstance) {
-  app.quit(); // Quit if another instance is running
-  process.exit(0); // Exit the application to ensure only one instance is running
+  app.quit();
+  process.exit(0); 
 }
 
 async function fetchFavicon(): Promise<NativeImage> {
   try {
-    // Fetch the HTML of the website to extract the favicon URL
     const response = await axios.get('https://youtube.com');
     const html = response.data;
 
-    // Regex to find the favicon URL
     const regex = /<link rel="icon" href="([^"]+)"/;
     const match = html.match(regex);
 
     if (match && match[1]) {
-      // Absolute URL of the favicon
       const faviconUrl = match[1];
       const faviconResponse = await axios.get(faviconUrl, { responseType: 'arraybuffer' });
 
-      // Convert the image data into a nativeImage using sharp
       const faviconImage = sharp(faviconResponse.data);
       const buffer = await faviconImage.resize(16, 16).toBuffer();
       return nativeImage.createFromBuffer(buffer);
@@ -46,7 +41,6 @@ async function fetchFavicon(): Promise<NativeImage> {
     }
   } catch (error) {
     console.error('Error fetching favicon:', error);
-    // Fallback to a local image if the fetch fails
     return nativeImage.createFromPath(path.join(__dirname, 'assets', 'favicon.ico'));
   }
 }
@@ -55,7 +49,7 @@ async function createWindow(): Promise<void> {
   mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
-    autoHideMenuBar: true, // Hide the default menu bar
+    autoHideMenuBar: true, 
     icon: path.join(__dirname, 'assets', 'favicon.ico'),
     webPreferences: {
       nodeIntegration: false,
@@ -110,10 +104,8 @@ app.whenReady().then(() => {
   });
 });
 
-// This event is triggered when another instance is launched
 app.on('second-instance', () => {
   if (mainWindow) {
-    // Focus the existing window if the app is already running
     if (mainWindow.isMinimized()) mainWindow.restore();
     mainWindow.focus();
   }
