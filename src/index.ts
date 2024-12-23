@@ -14,6 +14,14 @@ declare global {
 let mainWindow: BrowserWindow | null = null;
 let tray: Tray | null = null;
 
+// Prevent multiple instances of the app
+const isSingleInstance = app.requestSingleInstanceLock();
+
+if (!isSingleInstance) {
+  app.quit(); // Quit if another instance is running
+  process.exit(0); // Exit the application to ensure only one instance is running
+}
+
 async function fetchFavicon(): Promise<NativeImage> {
   try {
     // Fetch the HTML of the website to extract the favicon URL
@@ -100,6 +108,15 @@ app.whenReady().then(() => {
       createWindow();
     }
   });
+});
+
+// This event is triggered when another instance is launched
+app.on('second-instance', () => {
+  if (mainWindow) {
+    // Focus the existing window if the app is already running
+    if (mainWindow.isMinimized()) mainWindow.restore();
+    mainWindow.focus();
+  }
 });
 
 app.on('window-all-closed', () => {});
