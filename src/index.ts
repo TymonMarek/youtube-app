@@ -47,6 +47,7 @@ async function fetchFavicon(): Promise<NativeImage> {
 
 async function createWindow(): Promise<void> {
   mainWindow = new BrowserWindow({
+    title: "YouTube",
     width: 1200,
     height: 800,
     autoHideMenuBar: true, 
